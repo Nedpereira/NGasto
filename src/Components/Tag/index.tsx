@@ -1,0 +1,62 @@
+import React from 'react';
+import { View, StyleSheet, Text } from 'react-native';
+import { FontAwesome } from '@expo/vector-icons';
+
+type TagProps = {
+    tipo: 'Casa'| 'Lazer' | 'Saúde' | 'Educação' | 'Transporte' | 'Alimentação' | 'Outros' | 'Salario' | 'Beneficio' | 'Freelance';
+}
+
+const coresPorTipo = {
+    Casa: '#90EE90',
+    Lazer: '#FFD700',
+    Saúde: '#FF6347',
+    Educação: '#9B30FF',
+    Transporte: '#FFA500',
+    Alimentação: '#F4A460',
+    Outros: '#BEBEBE',
+    Salario: '#008000',
+    Beneficio: '#FFA07A',
+    Freelance: '#3CB371',
+}
+
+const iconesPorTipo = {
+    Casa: 'home',
+    Lazer: 'gamepad',
+    Saúde: 'heartbeat',
+    Educação: 'book',
+    Transporte: 'car',
+    Alimentação: 'cutlery',
+    Outros: 'ellipsis-h',
+    Salario: 'money',
+    Beneficio: 'institution',
+    Freelance: 'laptop',
+}
+
+export const Tag = ({ tipo }: TagProps) => {
+    const corDeFundo = coresPorTipo[tipo];
+    const icone:any = iconesPorTipo[tipo];
+
+    return (
+        <View style={[styles.tag, { backgroundColor: corDeFundo }]}>
+            <FontAwesome name={icone} size={20} color="#fff" /> 
+            <Text style={styles.texto}>{tipo}</Text>
+        </View>
+    );
+}
+
+const styles = StyleSheet.create({
+    tag: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        alignSelf: 'baseline',
+        paddingVertical: 5,
+        paddingHorizontal: 10,
+        borderRadius: 5,
+        marginRight: 10,
+    },
+    texto: {
+        marginLeft: 10,
+        color: '#fff',
+        fontWeight: 'bold',
+    }
+});
