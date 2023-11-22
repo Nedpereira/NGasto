@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, StyleSheet, Text } from 'react-native';
-import { FontAwesome } from '@expo/vector-icons';
+import  FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 type TagProps = {
     tipo: 'Casa'| 'Lazer' | 'Saúde' | 'Educação' | 'Transporte' | 'Alimentação' | 'Outros' | 'Salario' | 'Beneficio' | 'Freelance';

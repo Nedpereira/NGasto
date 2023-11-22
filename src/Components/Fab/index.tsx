@@ -1,27 +1,35 @@
 import * as React from 'react';
-import { View } from 'react-native';
-import { FAB, Portal, Provider } from 'react-native-paper';
-import { useTheme } from '../ThemeContext';
+import {View} from 'react-native';
+import {FAB, Portal, Provider} from 'react-native-paper';
+import {useTheme} from '../ThemeContext';
+import {useNavigation} from '@react-navigation/native';
 
 const Fab = () => {
-  const [state, setState] = React.useState({ open: false });
+  const [state, setState] = React.useState({open: false});
+  const navigation: any = useNavigation();
 
-  const onStateChange = ({ open }:any) => setState({ open });
-  const { open } = state;
-  const { theme, toggleTheme } = useTheme();
+  const onStateChange = ({open}: any) => setState({open});
+  const {open} = state;
+  const {theme, toggleTheme} = useTheme();
 
   return (
     <Provider>
       <Portal>
         <FAB.Group
-        fabStyle={{backgroundColor: 'white',}}
+          fabStyle={{backgroundColor: 'white'}}
+          style={{
+            display: 'flex',
+            justifyContent: 'flex-start',
+            alignItems: 'flex-start',
+            left: 10,
+          }}
           open={open}
           visible={true}
-          backdropColor='transparent'
+          backdropColor="transparent"
           icon={open ? 'arrow-down' : 'arrow-up'}
           actions={[
-            { icon: 'plus', onPress: () => console.log('Pressed add') },
-            { icon: 'email', onPress: () => console.log('Pressed email') },
+            {icon: 'plus', onPress: () => navigation.navigate('addcard')},
+            // { icon: 'email', onPress: () =>  navigation.navigate('addcard') },
           ]}
           onStateChange={onStateChange}
         />
