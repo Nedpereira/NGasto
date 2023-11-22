@@ -6,7 +6,7 @@ import Home from './src/Pages/Home';
 import { ThemeProvider } from './src/Components/ThemeContext';
 import Inicial from './src/Pages/Inicial';
 import AddCard from './src/Pages/Add-Card';
-import {store, persistor} from './src/Redux/Store';
+import { store, persistor } from './src/Redux/Store';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 
@@ -16,17 +16,17 @@ export default function App() {
     const scheme = useColorScheme();
 
     return (
-      <Provider store={store}>
-      <PersistGate loading={null} persistor={persistor}>
-            <ThemeProvider>
-                <NavigationContainer>
-                    <Stack.Navigator screenOptions={{ headerShown: false }}>
-                        <Stack.Screen name="inicial" component={Inicial} />
-                        <Stack.Screen name="Home" component={Home} />
-                        <Stack.Screen name="addcard" component={AddCard} />
-                    </Stack.Navigator>
-                </NavigationContainer>
-            </ThemeProvider>
+        <Provider store={store}>
+            <PersistGate loading={null} persistor={persistor}>
+                <ThemeProvider>
+                    <NavigationContainer>
+                        <Stack.Navigator screenOptions={{ headerShown: false }}>
+                            <Stack.Screen name="inicial" component={Inicial} />
+                            <Stack.Screen name="Home" component={Home} />
+                            <Stack.Screen name="addcard" component={AddCard} />
+                        </Stack.Navigator>
+                    </NavigationContainer>
+                </ThemeProvider>
             </PersistGate>
         </Provider>
     );
