@@ -1,15 +1,13 @@
 
 <p align="center">
-  <img src="https://github.com/Nedpereira/voceNoControle/assets/86324962/2ef4f093-528a-4ec7-a69d-38d3f362fc06" width="300"/>
-  <b>+</b>
-  <img src="https://github.com/Nedpereira/voceNoControle/assets/86324962/1bedd31c-f638-4a70-9593-869631baf204" width="300"/>
+  <img src="https://github.com/Nedpereira/voceNoControle/assets/86324962/2ef4f093-528a-4ec7-a69d-38d3f362fc06" width="200"/>
 </p>
 
 # VoceNoControle
 
 ## Sobre
 
-`VoceNoControle` é um projeto em React Native + Expo para controle financeiro + aprendizado. 
+`VoceNoControle` é um projeto em React Native para controle financeiro + aprendizado. 
 
 ## Estrutura do Projeto
 
@@ -19,7 +17,6 @@
 ## Pré-requisitos
 
 - Node.js
-- Expo CLI
 
 ## Instalação
 
@@ -28,7 +25,7 @@
 
 ## Execução
 
-Inicie o projeto com `expo start` após instalar as dependências.
+Inicie o projeto com `npx react-native start` após instalar as dependências.
 
 ## Contribuição
 
