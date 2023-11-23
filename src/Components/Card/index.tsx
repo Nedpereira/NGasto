@@ -22,10 +22,11 @@ export default Card;
 
 const styles = StyleSheet.create({
     card: {
-      minWidth: '100%',
+      width: '100%',
+      maxWidth: 340,
       paddingTop: 10,
       paddingLeft: 10,
-      paddingRight: 10,
+      paddingRight: 5,
       borderWidth: 0.2,
       borderRadius: 8,
       shadowOpacity: 0.20,
