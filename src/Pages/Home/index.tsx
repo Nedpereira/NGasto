@@ -12,6 +12,7 @@ import { useFocusEffect } from '@react-navigation/native';
 import { DeleteCard } from './Delete-Card';
 import { useSelector } from 'react-redux';
 import { CustomCalendarHeader } from '../../Components/Calendar';
+import { BalanceCard } from '../../Components/BalanceCard';
 
 type Cards = {
     tag: any;
@@ -56,6 +57,7 @@ function Home() {
                 <Text style={[styles.textoSaudacao, { color: theme.textColor }]}>{getSaudacao(name)}</Text>
             </View>
             <ScrollView style={{ height: '50%' }}>
+                <BalanceCard balance={100} name="Ganhos" type="Lucro" icon="trending-down"/>
                 {isLoading === false ? (
                     card?.map(({ tag, descricao, valor, id }: Cards) => (
                         <View key={id} style={styles.card}>
