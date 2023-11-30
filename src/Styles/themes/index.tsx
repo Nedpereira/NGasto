@@ -21,3 +21,7 @@ export const welcomeColors = {
     button: '#2CBD4D',
     placeholder: '#7E7E7E'
 }
+
+export const mainColors = {
+    text: '#FFFFFF',
+}

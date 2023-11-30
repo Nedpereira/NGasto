@@ -11,7 +11,7 @@ import { buscarTodosOsCards } from '../../Utils/Select_Cards';
 import { useFocusEffect } from '@react-navigation/native';
 import { DeleteCard } from './Delete-Card';
 import { useSelector } from 'react-redux';
-import { CustomCalendarHeader } from '../../Components/Calendario';
+import { CustomCalendarHeader } from '../../Components/Calendar';
 
 type Cards = {
     tag: any;
