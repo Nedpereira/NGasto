@@ -1,1 +1,6 @@
-{}
+{
+    "sonarlint.connectedMode.project": {
+        "connectionId": "https-sonar3-killvorak-com-",
+        "projectKey": "vocenocontrole"
+    }
+}
