@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
 import Card from '../../Components/Card';
 import getSaudacao from '../../Utils/Saudacoes';
@@ -7,13 +7,11 @@ import { BodyCard } from '../../Components/BodyCard';
 import { useTheme } from '../../Components/ThemeContext';
 import Icons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Fab from '../../Components/Fab';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { buscarTodosOsCards } from '../../Utils/Select_Cards';
-import { checkTableExists } from '../../Utils/Check_Table';
 import { useFocusEffect } from '@react-navigation/native';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { DeleteCard } from './Delete-Card';
 import { useSelector } from 'react-redux';
+import { CustomCalendarHeader } from '../../Components/Calendario';
 
 type Cards = {
     tag: any;
@@ -50,6 +48,7 @@ function Home() {
 
     return (
         <View style={[styles.container, { backgroundColor: theme.backgroundColor }]}>
+            <CustomCalendarHeader/>
             <TouchableOpacity style={styles.icon} onPress={toggleTheme}>
                 <Icons name={theme.backgroundColor === '#121212' ? 'lightbulb-on' : 'lightbulb-outline'} size={28} color={theme.textColor} />
             </TouchableOpacity>
@@ -69,7 +68,7 @@ function Home() {
                                     }}
                                 >
                                     <Tag tipo={tag} />
-                                    <MaterialCommunityIcons name="close" size={20} color={'white'} onPress={() => onCardDelete(id)} />
+                                    <Icons name="close" size={20} color={'white'} onPress={() => onCardDelete(id)} />
                                 </View>
                                 <BodyCard texto={descricao} valor={valor} tipo={tag} />
                             </Card>

@@ -23,7 +23,7 @@ export const BodyCard = ({ texto, valor, tipo = 'Outros' }: TagProps) => {
         Outros: 'Outros',
     };
 
-    const validar = tiposGasto[tipo] ? true : false;
+    const validar = !!tiposGasto[tipo];
     const nameIcone = validar ? 'cash-minus' : 'cash-plus';
     const iconeCor = validar ? 'red' : 'green';
 
