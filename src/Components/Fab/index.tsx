@@ -14,10 +14,12 @@ const Fab = () => {
                 <Menu.Group
                     fabStyle={{ backgroundColor: 'white' }}
                     style={{
-                        display: 'flex',
-                        justifyContent: 'flex-start',
+                        flex: 1,
                         alignItems: 'flex-start',
+                        position: 'absolute',
+                        right: 0,
                         left: 10,
+                        bottom: 30,
                     }}
                     open={open}
                     visible={true}
