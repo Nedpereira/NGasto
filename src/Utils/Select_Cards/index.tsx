@@ -1,20 +1,24 @@
 import db from "../../db";
 
-export const buscarTodosOsCards = async (callback: (cards: any[]) => void) => {
+interface Card {
+  mesAno: string;
+}
+
+export const searchAllCards = async (mesAno:Card, callback: (cards: Card[]) => void): Promise<void> => {
   try {
     const database = await db;
-    database.transaction((tx: any) => {
+    database.transaction(tx => {
       tx.executeSql(
-        'SELECT * FROM cards;',
-        [],
-        (_: any, results: any) => {
+        'SELECT * FROM cards WHERE mes_ano = ?;',
+        [mesAno],
+        (_, results) => {
           let cards = [];
           for (let i = 0; i < results.rows.length; i++) {
             cards.push(results.rows.item(i));
           }
           callback(cards);
         },
-        (tx: any, error: any) => {
+        (tx, error) => {
           console.error('Erro ao buscar dados na tabela "cards":', error);
         }
       );
