@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image, Dimensions, Platform } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image, Dimensions, Platform, ScrollView } from 'react-native';
 import LottieView from 'lottie-react-native';
 import { useDispatch } from 'react-redux';
 import { NameUser } from '../../Redux/Actions';
@@ -29,43 +29,49 @@ const Welcome = ({ navigation }: navigationProps) => {
     };
 
     return (
-        <View style={styles.container}>
-            <Image style={styles.logoTipo} source={require('../../Assets/imgs/NGastoBranco.png')} />
-            <Text style={styles.title}>Bem-vindo ao NGasto</Text>
-            <Text style={styles.subtitle}>Controle seus gastos e lucros com facilidade.</Text>
-            <LottieView loop autoPlay style={styles.animation} source={require('../../Assets/imgs/Animation.json')} />
+        <ScrollView style={styles.scrollView}>
+            <View style={styles.container}>
+                <Image style={styles.logoTipo} source={require('../../Assets/imgs/NGastoBranco.png')} />
+                <Text style={styles.title}>Bem-vindo ao NGasto</Text>
+                <Text style={styles.subtitle}>Controle seus gastos e lucros com facilidade.</Text>
+                <LottieView loop autoPlay style={styles.animation} source={require('../../Assets/imgs/animation.json')} />
 
-            <View style={styles.inputContainer}>
-                <Text style={styles.label}>Como gostaria de ser chamado(a)?</Text>
-                <TextInput
-                    style={styles.input}
-                    placeholderTextColor={welcomeColors.placeholder}
-                    placeholder="Nome"
-                    value={name}
-                    onChangeText={setName}
-                />
-                <Text style={styles.offlineInfo}>Seus dados são armazenados localmente para uso offline, garantindo sua privacidade e segurança</Text>
+                <View style={styles.inputContainer}>
+                    <Text style={styles.label}>Como gostaria de ser chamado(a)?</Text>
+                    <TextInput
+                        style={styles.input}
+                        placeholderTextColor={welcomeColors.placeholder}
+                        placeholder="Nome"
+                        value={name}
+                        onChangeText={setName}
+                    />
+                    <Text style={styles.offlineInfo}>
+                        Seus dados são armazenados localmente para uso offline, garantindo sua privacidade e segurança
+                    </Text>
+                </View>
+                <TouchableOpacity style={styles.button} onPress={handleContinue}>
+                    <Text style={styles.textButton}>Vamos lá</Text>
+                </TouchableOpacity>
             </View>
-            <TouchableOpacity style={styles.button} onPress={handleContinue}>
-                <Text style={styles.textButton}>Vamos lá</Text>
-            </TouchableOpacity>
-        </View>
+        </ScrollView>
     );
 };
 
 const styles = StyleSheet.create({
+    scrollView: {
+        backgroundColor: welcomeColors.backgroundColor,
+    },
     container: {
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
         padding: 20,
-        backgroundColor: welcomeColors.backgroundColor,
     },
     logoTipo: {
         width: width * 0.1,
         height: height * 0.06,
         alignSelf: 'flex-end',
-        marginBottom: 20,
+        marginBottom: 10,
     },
     title: {
         alignSelf: 'flex-start',
@@ -83,7 +89,7 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
         width: width * 0.9,
         height: height * 0.35,
-        marginVertical: 20,
+        marginVertical: 8,
     },
     inputContainer: {
         width: '100%',
@@ -91,17 +97,17 @@ const styles = StyleSheet.create({
     },
     label: {
         alignSelf: 'center',
-        fontSize: RFValue(15),
+        fontSize: RFValue(13),
         fontFamily: 'Fredoka-Regular',
         color: welcomeColors.text,
         marginBottom: 10,
     },
     input: {
         width: width * 0.8,
-        height: 40,
+        height: height * 0.06,
         borderRadius: 8,
         paddingLeft: 10,
-        fontSize: RFValue(14),
+        fontSize: RFValue(12),
         backgroundColor: welcomeColors.text,
         color: welcomeColors.placeholder,
         fontFamily: 'Fredoka-Regular',
