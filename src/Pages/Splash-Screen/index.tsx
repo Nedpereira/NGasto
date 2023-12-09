@@ -1,5 +1,5 @@
 import LottieView from 'lottie-react-native';
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { StyleSheet, View, Dimensions } from 'react-native';
 import { splashColors } from '../../Styles/themes';
 import { useSelector } from 'react-redux';
