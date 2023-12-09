@@ -4,10 +4,7 @@ export const NameUser = (name: string ) => ({
     payload: name,
 })
 
-export const Calendar = (month:string , year: string) => ({
+export const Calendar = (monthYear:string) => ({
     type: 'SET_CALENDAR',
-    payload: {
-        month,
-        year
-    }
+    payload: monthYear,
 })

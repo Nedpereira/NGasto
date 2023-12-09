@@ -1,9 +1,6 @@
 const initialState = {
     name: '',
-    calendar: {
-        month: '',
-        year: '',
-    },
+    monthYear: '',
 };
 
 const reducer = (state = initialState, action: any) => {
@@ -11,7 +8,7 @@ const reducer = (state = initialState, action: any) => {
         case 'SET_NAME':
             return { ...state, name: action.payload };
         case 'SET_CALENDAR':
-            return { ...state, calendar: { month: action.payload.month, year: action.payload.year } };
+            return { ...state, monthYear: action.payload };
         default:
             return state;
     }
