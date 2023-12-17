@@ -1,4 +1,5 @@
 import { Toast, ALERT_TYPE } from 'react-native-alert-notification';
+import { RFValue } from 'react-native-responsive-fontsize';
 
 export const MyAlert = (status: number, textBody: string) => {
   let type;
@@ -19,5 +20,6 @@ export const MyAlert = (status: number, textBody: string) => {
   Toast.show({
     type: type,
     textBody: textBody,
+    textBodyStyle: {fontFamily:'Fredoka-Medium', fontSize: RFValue(11)}
   });
 };

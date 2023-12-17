@@ -1,4 +1,5 @@
-import db from "../../../db";
+import db from "../../db";
+
 
 export const DropTabelaCards = async () => {
     const database = await db;

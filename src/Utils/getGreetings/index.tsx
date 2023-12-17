@@ -1,4 +1,8 @@
-const getSaudacao = (nome: string) => {
+function capitalizeFirstLetter(string:string) {
+    return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
+  }
+
+const getGreetings = (nome?: string) => {
     const horaAtual = new Date().getHours();
     let saudacao;
 
@@ -10,7 +14,7 @@ const getSaudacao = (nome: string) => {
         saudacao = 'Boa noite';
     }
 
-    return `${saudacao}, ${nome}`;
+    return `${saudacao},\n${capitalizeFirstLetter(nome || '')}`;
 };
 
-export default getSaudacao;
+export default getGreetings;

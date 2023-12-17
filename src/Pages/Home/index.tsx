@@ -1,82 +1,103 @@
-import React, { useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
-import Card from '../../Components/Card';
-import getSaudacao from '../../Utils/Saudacoes';
-import { Tag } from '../../Components/Tag';
-import { BodyCard } from '../../Components/BodyCard';
-import { useTheme } from '../../Components/ThemeContext';
-import Icons from 'react-native-vector-icons/MaterialCommunityIcons';
+import React, { useState, useEffect } from 'react';
+import { View, Text, StyleSheet, ScrollView, Platform, Image } from 'react-native';
+import getGreetings from '../../Utils/getGreetings';
 import Fab from '../../Components/Fab';
-import { buscarTodosOsCards } from '../../Utils/Select_Cards';
-import { useFocusEffect } from '@react-navigation/native';
-import { DeleteCard } from './Delete-Card';
+import { searchAllCards } from '../../Utils/Select_Cards';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import { useSelector } from 'react-redux';
 import { CustomCalendarHeader } from '../../Components/Calendar';
-
-type Cards = {
-    tag: any;
-    descricao: string;
-    valor: number;
-    id: number;
-};
+import { BalanceCard } from '../../Components/BalanceCard';
+import CustomCard from '../../Components/CustomCard';
+import LinearGradient from 'react-native-linear-gradient';
+import { RFValue } from 'react-native-responsive-fontsize';
+import { addCardsByCategory } from '../../Utils/addCardsByCategory';
+import { collors } from '../../Styles/themes';
+import { DeleteCard } from '../../Helpers/Delete-Card';
+import { CreateCardsTable } from '../../Helpers/Add-Tabela';
+import { navigationProps } from '../../types/Navigation';
+import { cardsProps, monthYearProps, userProps } from '../../types/AllTypes';
 
 function Home() {
-    const { theme, toggleTheme } = useTheme();
-    const name = useSelector((state: any) => state.name);
+    const navigation: navigationProps = useNavigation();
+    const { name, photo } = useSelector((state: userProps) => state.user);
+    const calendarSelect = useSelector((state: monthYearProps) => state.monthYear);
     const [card, setCard] = useState<any>([]);
+    const [lucro, setLucro] = useState<number>();
+    const [gasto, setGasto] = useState<number>();
     const [isLoading, setIsLoading] = useState<boolean>(false);
+
+    useEffect(() => {
+        CreateCardsTable();
+    }, []);
 
     useFocusEffect(
         React.useCallback(() => {
-            buscarTodosOsCards((dados) => {
+            searchAllCards(calendarSelect, (dados) => {
                 setCard(dados);
             });
-        }, [isLoading])
+            addCardsByCategory(calendarSelect).then(({ totalGastos, totalLucros }) => {
+                setLucro(totalLucros);
+                setGasto(totalGastos);
+            });
+        }, [isLoading, calendarSelect])
     );
 
     const onCardDelete = async (id: number) => {
         setIsLoading(true);
-        const result: any = await DeleteCard(id);
-        if (result?.rowsAffected === 1) {
-            console.log(`Card ID ${id} apagado com sucesso..`);
-            setCard((prevCards: Cards[]) => prevCards.filter((card) => card.id !== id));
-        } else {
-            console.log(`Erro ao excluir card com ID ${id}:`, result);
+        try {
+            const wasDeleted = await DeleteCard(id);
+            if (wasDeleted) {
+                setCard((prevCards: cardsProps[]) => prevCards.filter((card) => card?.id !== id));
+            } else {
+                console.log(`Nenhum card encontrado com ID ${id}.`);
+            }
+        } catch (error) {
+            console.error(`Erro ao excluir card com ID ${id}:`, error);
+        } finally {
+            setIsLoading(false);
         }
-        setIsLoading(false);
+    };
+
+    const renderContent = () => {
+        if (isLoading) {
+            return <Text style={styles.loadingText}>Carregando...</Text>;
+        }
+
+        if (card.length === 0) {
+            return (
+                <Text style={styles.message}>
+                    Controle seus gastos facilmente! Clique na seta para cima e depois no + para adicionar seu primeiro card.
+                </Text>
+            );
+        }
+
+        return card.map(({ tag, descricao, valor, id }: cardsProps) => (
+            <CustomCard tag={tag} descricao={descricao} valor={valor} id={id} key={id.toString()} onCardDelete={() => onCardDelete(id)} />
+        ));
     };
 
     return (
-        <View style={[styles.container, { backgroundColor: theme.backgroundColor }]}>
-            <CustomCalendarHeader/>
-            <TouchableOpacity style={styles.icon} onPress={toggleTheme}>
-                <Icons name={theme.backgroundColor === '#121212' ? 'lightbulb-on' : 'lightbulb-outline'} size={28} color={theme.textColor} />
-            </TouchableOpacity>
-            <View style={styles.saudacao}>
-                <Text style={[styles.textoSaudacao, { color: theme.textColor }]}>{getSaudacao(name)}</Text>
+        <View style={styles.container}>
+            <LinearGradient colors={['#17A2B8', '#17A2B8']} style={styles.gradientBackground}>
+                <View style={styles.saudacao} onTouchEnd={() => navigation.navigate('EditUser')}>
+                    <Image
+                        style={photo ? styles.image : styles.imageDefault}
+                        source={photo ? { uri: photo } : require('../../Assets/imgs/user-default.png')}
+                    />
+                    <Text numberOfLines={2} ellipsizeMode="tail" style={styles.textoSaudacao}>
+                        {getGreetings(name)}
+                    </Text>
+                </View>
+                <View style={styles.CustomCalendar}>
+                    <CustomCalendarHeader />
+                </View>
+            </LinearGradient>
+            <View style={styles.balanceContainer}>
+                <BalanceCard balance={lucro} name="Ganhos" type="Lucro" icon="trending-up" />
+                <BalanceCard balance={gasto} name="Gastos" type="Gastos" icon="trending-down" />
             </View>
-            <ScrollView style={{ height: '50%' }}>
-                {isLoading === false ? (
-                    card?.map(({ tag, descricao, valor, id }: Cards) => (
-                        <View key={id} style={styles.card}>
-                            <Card>
-                                <View
-                                    style={{
-                                        display: 'flex',
-                                        flexDirection: 'row',
-                                        justifyContent: 'space-between',
-                                    }}
-                                >
-                                    <Tag tipo={tag} />
-                                    <Icons name="close" size={20} color={'white'} onPress={() => onCardDelete(id)} />
-                                </View>
-                                <BodyCard texto={descricao} valor={valor} tipo={tag} />
-                            </Card>
-                        </View>
-                    ))
-                ) : (
-                    <Text style={{ color: 'white' }}>Carregando..</Text>
-                )}
+            <ScrollView style={styles.scrollViewStyle} contentContainerStyle={styles.scrollViewContent}>
+                {renderContent()}
             </ScrollView>
             <Fab />
         </View>
@@ -89,28 +110,75 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         width: '100%',
-        justifyContent: 'flex-start',
-        paddingTop: 80,
-    },
-    icon: {
-        position: 'absolute',
-        top: 80,
-        right: 20,
-        zIndex: 10,
-        color: 'blue',
+        backgroundColor: collors.darkGrey,
     },
     saudacao: {
-        marginBottom: 50,
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginLeft: 15,
+        marginBottom: 30,
     },
     textoSaudacao: {
-        fontSize: 22,
-        fontWeight: '600',
-        alignSelf: 'center',
-        color: 'white',
+        width: 300,
+        fontSize: RFValue(14),
+        marginLeft: 5,
+        justifyContent: 'center',
+        color: collors.white,
+        fontFamily: 'Fredoka-Medium',
     },
-    card: {
+    CustomCalendar: {
+        marginBottom: 40,
+    },
+    loadingText: {
+        paddingTop: 80,
+        color: collors.white,
         alignSelf: 'center',
-        marginHorizontal: 20,
-        marginTop: 10,
+        fontFamily: 'Fredoka-Medium',
+    },
+    scrollViewStyle: {
+        marginTop: 50,
+        height: '38%',
+        alignSelf: 'center',
+    },
+    message: {
+        color: collors.white,
+        fontFamily: 'Fredoka-Medium',
+        textAlign: 'center',
+        paddingTop: 80,
+        paddingHorizontal: 20,
+    },
+    gradientBackground: {
+        height: '25%',
+        justifyContent: 'center',
+        borderBottomLeftRadius: 10,
+        borderBottomRightRadius: 10,
+        ...Platform.select({
+            android: {
+                elevation: 2,
+            },
+        }),
+    },
+    scrollViewContent: {
+        flexGrow: 1,
+        justifyContent: 'flex-start',
+    },
+    balanceContainer: {
+        position: 'absolute',
+        top: '20%',
+        flexDirection: 'row',
+        justifyContent: 'space-around',
+        width: '100%',
+    },
+    image: {
+        width: 60,
+        height: 60,
+        borderRadius: 50,
+        resizeMode: 'cover',
+    },
+    imageDefault: {
+        width: 40,
+        height: 40,
+        borderRadius: 50,
+        resizeMode: 'cover',
     },
 });

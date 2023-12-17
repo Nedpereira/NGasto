@@ -1,19 +1,22 @@
 import LottieView from 'lottie-react-native';
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { StyleSheet, View, Dimensions } from 'react-native';
-import { splashColors } from '../../Styles/themes';
+import { collors } from '../../Styles/themes';
 import { useSelector } from 'react-redux';
 import { navigationProps } from '../../types/Navigation';
+import { useNavigation } from '@react-navigation/native';
+import { userProps } from '../../types/AllTypes';
 
 const { width, height } = Dimensions.get('window');
 
-function SplashScreen({ navigation }: Readonly<navigationProps>) {
+function SplashScreen() {
+    const navigation: navigationProps = useNavigation();
     const animation = useRef(null);
-    const nameUser = useSelector((state: any) => state.name);
+    const { name } = useSelector((state: userProps) => state.user);
 
     useEffect(() => {
         const timer = setTimeout(() => {
-            if (nameUser) {
+            if (name) {
                 navigation.navigate('Home');
             } else {
                 navigation.navigate('Welcome');
@@ -21,7 +24,7 @@ function SplashScreen({ navigation }: Readonly<navigationProps>) {
         }, 2600);
 
         return () => clearTimeout(timer);
-    }, [nameUser]);
+    }, [name]);
 
     return (
         <View style={styles.container}>
@@ -37,7 +40,7 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: splashColors.backgroundColor,
+        backgroundColor: collors.darkGrey,
     },
     lottie: {
         width: width * 0.6,
