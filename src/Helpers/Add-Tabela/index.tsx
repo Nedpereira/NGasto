@@ -1,7 +1,7 @@
 import db from "../../db";
 
 
-export const CriarTabelaCards = async () => {
+export const CreateCardsTable = async () => {
     const database = await db;
 
     database.transaction((tx:any) => {

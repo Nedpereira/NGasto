@@ -1,7 +1,7 @@
-import { StyleSheet, Text, View, Dimensions, Platform } from 'react-native';
+import { StyleSheet, Text, View, Dimensions } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { RFValue } from 'react-native-responsive-fontsize';
-import { balanceColors } from '../../Styles/themes';
+import { collors } from '../../Styles/themes';
 
 const { width, height } = Dimensions.get('window');
 
@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         width: width * 0.42,
         height: height * 0.1,
-        backgroundColor: balanceColors.backgroundColor,
+        backgroundColor: collors.white,
         borderRadius: 8,
         padding: 10,
     },
@@ -58,7 +58,7 @@ const styles = StyleSheet.create({
     name: {
         fontSize: RFValue(12),
         fontFamily: 'Fredoka-Medium',
-        color: balanceColors.text,
+        color: collors.coldGray,
         alignSelf: 'center',
     },
 });

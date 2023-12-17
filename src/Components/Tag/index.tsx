@@ -1,13 +1,14 @@
 import React from 'react';
 import { View, StyleSheet, Text } from 'react-native';
-import  FontAwesome from 'react-native-vector-icons/FontAwesome';
+import { RFValue } from 'react-native-responsive-fontsize';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 type TagProps = {
-    tipo: 'Casa'| 'Lazer' | 'Saúde' | 'Educação' | 'Transporte' | 'Alimentação' | 'Outros' | 'Salario' | 'Beneficio' | 'Freelance';
-}
+    tipo: 'Casa' | 'Lazer' | 'Saúde' | 'Educação' | 'Transporte' | 'Alimentação' | 'Outros' | 'Salario' | 'Beneficio' | 'Freelance';
+};
 
 const coresPorTipo = {
-    Casa: '#90EE90',
+    Casa: '#DE245C',
     Lazer: '#FFD700',
     Saúde: '#FF6347',
     Educação: '#9B30FF',
@@ -17,7 +18,7 @@ const coresPorTipo = {
     Salario: '#008000',
     Beneficio: '#FFA07A',
     Freelance: '#3CB371',
-}
+};
 
 const iconesPorTipo = {
     Casa: 'home',
@@ -30,33 +31,34 @@ const iconesPorTipo = {
     Salario: 'money',
     Beneficio: 'institution',
     Freelance: 'laptop',
-}
+};
 
 export const Tag = ({ tipo }: TagProps) => {
     const corDeFundo = coresPorTipo[tipo];
-    const icone:any = iconesPorTipo[tipo];
+    const icone: any = iconesPorTipo[tipo];
 
     return (
         <View style={[styles.tag, { backgroundColor: corDeFundo }]}>
-            <FontAwesome name={icone} size={20} color="#fff" /> 
+            <FontAwesome name={icone} size={RFValue(15)} color="#fff" />
             <Text style={styles.texto}>{tipo}</Text>
         </View>
     );
-}
+};
 
 const styles = StyleSheet.create({
     tag: {
         flexDirection: 'row',
         alignItems: 'center',
         alignSelf: 'baseline',
-        paddingVertical: 5,
-        paddingHorizontal: 10,
+        paddingVertical: 4,
+        paddingHorizontal: 8,
         borderRadius: 5,
-        marginRight: 10,
+        marginRight: 8,
     },
     texto: {
         marginLeft: 10,
         color: '#fff',
-        fontWeight: 'bold',
-    }
+        fontSize: RFValue(10),
+        fontFamily: 'Fredoka-Medium',
+    },
 });

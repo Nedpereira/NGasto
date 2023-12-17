@@ -3,40 +3,53 @@ import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import Right from 'react-native-vector-icons/FontAwesome5';
 import moment from 'moment';
 import 'moment/locale/pt-br';
-import { calendarColors } from '../../Styles/themes';
+import { collors } from '../../Styles/themes';
 import { RFValue } from 'react-native-responsive-fontsize';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Calendar } from '../../Redux/Actions';
 
 moment.locale('pt-br');
 
+type CalendarProps = {
+    monthYear: string;
+};
 export const CustomCalendarHeader = () => {
-    const [currentMonth, setCurrentMonth] = useState(moment());
+    const calendarSelect = useSelector((state: CalendarProps) => state.monthYear);
     const dispatch = useDispatch();
+    const [currentMonth, setCurrentMonth] = useState(moment());
+    const [isUserAction, setIsUserAction] = useState(false);
 
     const goToNextMonth = () => {
-        setCurrentMonth(currentMonth.clone().add(1, 'month'));
+        const nextMonth = currentMonth.clone().add(1, 'month');
+        setCurrentMonth(nextMonth);
+        setIsUserAction(true);
+        dispatch(Calendar(nextMonth.format('MMM' + 'YYYY')));
     };
+
     const goToPreviousMonth = () => {
-        setCurrentMonth(currentMonth.clone().subtract(1, 'month'));
+        const prevMonth = currentMonth.clone().subtract(1, 'month');
+        setCurrentMonth(prevMonth);
+        setIsUserAction(true);
+        dispatch(Calendar(prevMonth.format('MMM' + 'YYYY')));
     };
 
     useEffect(() => {
-        if (currentMonth) {
-            dispatch(Calendar(currentMonth.format('MMM'+ 'YYYY')));
+        if (calendarSelect && calendarSelect !== currentMonth.format('MMM' + 'YYYY') && !isUserAction) {
+            setCurrentMonth(moment(calendarSelect, 'MMM' + 'YYYY'));
         }
-    }, [currentMonth]);
+        setIsUserAction(false);
+    }, [calendarSelect]);
 
     return (
         <View style={styles.container}>
             <TouchableOpacity onPress={goToPreviousMonth}>
-                <Right name="angle-left" color="white" size={30} />
+                <Right name="angle-left" color="white" size={32} />
             </TouchableOpacity>
             <Text style={styles.calendarValue}>
                 {currentMonth.format('MMM')} <Text style={{ textTransform: 'lowercase' }}>de</Text> {currentMonth.format('YYYY')}
             </Text>
             <TouchableOpacity onPress={goToNextMonth}>
-                <Right name="angle-right" color="white" size={30} />
+                <Right name="angle-right" color="white" size={32} />
             </TouchableOpacity>
         </View>
     );
@@ -52,7 +65,7 @@ const styles = StyleSheet.create({
         textTransform: 'capitalize',
         fontSize: RFValue(14),
         fontFamily: 'Fredoka-Medium',
-        color: calendarColors.text,
+        color: collors.white,
         marginHorizontal: 20,
     },
 });

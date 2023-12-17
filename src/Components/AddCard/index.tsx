@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
-import { View, StyleSheet, Platform, Dimensions, ActivityIndicator, TouchableOpacity, Text } from 'react-native';
-import { bubbleModal } from '../../Styles/themes';
+import { View, StyleSheet, Platform, ActivityIndicator, TouchableOpacity, Text } from 'react-native';
+import { collors } from '../../Styles/themes';
 import { TextInput } from 'react-native-paper';
 import { useNavigation, useRoute, RouteProp } from '@react-navigation/native';
 import { Dropdown } from 'react-native-element-dropdown';
@@ -20,8 +20,6 @@ type AddCardRouteParams = {
     typeCard: ModalType;
     id: number;
 };
-
-const { width, height } = Dimensions.get('window');
 
 const AddCard = () => {
     const navigation: navigationProps = useNavigation();
@@ -72,8 +70,8 @@ const AddCard = () => {
             inserirCard(anoMes, tag, description, value);
             MyAlert(200, 'Card adicionado com sucesso!');
             setTimeout(() => {
-                navigation.navigate('Home');
-            }, 800);
+                navigation.goBack();
+            }, 1000);
         } else {
             MyAlert(300, 'Preencha todos os campos!');
         }
@@ -94,10 +92,10 @@ const AddCard = () => {
                 MyAlert(200, 'Card excluído com sucesso!');
                 setTimeout(() => navigation.navigate('Home'), 800);
             } else {
-                console.log(`Nenhum card encontrado com ID ${idCard}.`);
+                MyAlert(300, `Nenhum card encontrado com ID ${idCard}.`);
             }
-        } catch (error) {
-            console.error(`Erro ao excluir card com ID ${idCard}:`, error);
+        } catch {
+            MyAlert(300, `Erro ao excluir card com ID ${idCard}:`);
         }
     };
 
@@ -125,6 +123,8 @@ const AddCard = () => {
     if (typeCard === 'add') {
         return (
             <View style={styles.centeredView}>
+                <Icon style={styles.goBack} name="arrow-back-ios" onPress={() => navigation.goBack()} size={RFValue(20)} color="white" />
+                <Text style={styles.title}>Criar Card</Text>
                 <View style={styles.modalView}>
                     <Dropdown
                         style={styles.dropdown}
@@ -164,11 +164,7 @@ const AddCard = () => {
                         value={value}
                         onChangeText={handleValueChange}
                     />
-                    <View style={styles.groupsButton}>
-                        <TouchableOpacity style={styles.buttonBack} onPress={() => navigation.goBack()}>
-                            <Text style={styles.text}>Voltar</Text>
-                        </TouchableOpacity>
-
+                    <View style={styles.groupsButtonAdd}>
                         <TouchableOpacity style={styles.buttonAdd} onPress={handleAddCard}>
                             <Text style={styles.text}>Adicionar</Text>
                         </TouchableOpacity>
@@ -179,8 +175,9 @@ const AddCard = () => {
     } else {
         return (
             <View style={styles.centeredView}>
+                <Icon style={styles.goBack} name="arrow-back-ios" onPress={() => navigation.goBack()} size={RFValue(20)} color="white" />
+                <Text style={styles.title}>Editar Card</Text>
                 <View style={styles.modalView}>
-                    <Icon style={styles.iconClose} name="close" size={RFValue(18)} onPress={() => navigation.goBack()} color={'#343A40'} />
                     <Dropdown
                         style={styles.dropdown}
                         selectedTextStyle={styles.selectedTextStyle}
@@ -245,11 +242,11 @@ const styles = StyleSheet.create({
         width: '90%',
         flexDirection: 'column',
         marginVertical: 20,
-        backgroundColor: 'white',
+        backgroundColor: collors.white,
         borderRadius: 10,
         padding: 10,
         alignItems: 'center',
-        shadowColor: bubbleModal.shadow,
+        shadowColor: collors.black,
         shadowOffset: {
             width: 0,
             height: 2,
@@ -266,10 +263,10 @@ const styles = StyleSheet.create({
     dropdown: {
         width: '90%',
         height: 40,
-        backgroundColor: 'white',
+        backgroundColor: collors.white,
         borderRadius: 5,
         paddingHorizontal: 3,
-        borderColor: 'black',
+        borderColor: collors.black,
         borderWidth: 0.5,
         borderBottomWidth: 1,
         marginTop: 10,
@@ -283,21 +280,21 @@ const styles = StyleSheet.create({
     selectedTextStyle: {
         fontSize: RFValue(11),
         marginLeft: 8,
-        color: '#616161',
+        color: collors.coldGray,
         fontFamily: 'Fredoka-Medium',
     },
     placeholderStyle: {
         fontSize: RFValue(11),
-        color: '#616161',
+        color: collors.coldGray,
         fontFamily: 'Fredoka-Medium',
     },
     description: {
         width: '90%',
         height: 40,
-        backgroundColor: 'white',
+        backgroundColor: collors.white,
         borderRadius: 5,
         paddingHorizontal: 10,
-        borderColor: 'black',
+        borderColor: collors.black,
         borderWidth: 0.5,
         marginBottom: 10,
         ...Platform.select({
@@ -308,33 +305,26 @@ const styles = StyleSheet.create({
     },
     descriptionPlaceholder: {
         fontSize: RFValue(11),
-        color: '#616161',
+        color: collors.coldGray,
         fontFamily: 'Fredoka-Medium',
+    },
+    groupsButtonAdd: {
+        width: '90%',
+        alignItems: 'center',
+        marginTop: 20,
+        marginBottom: 10,
     },
     groupsButton: {
         width: '90%',
         flexDirection: 'row',
         justifyContent: 'space-between',
-        marginTop: 10,
+        marginTop: 20,
         marginBottom: 10,
     },
     buttonAdd: {
         width: 100,
         height: 38,
-        backgroundColor: '#2CBD4D',
-        borderRadius: 5,
-        alignItems: 'center',
-        justifyContent: 'center',
-        ...Platform.select({
-            android: {
-                elevation: 1,
-            },
-        }),
-    },
-    buttonBack: {
-        width: 100,
-        height: 38,
-        backgroundColor: '#A2A2A2',
+        backgroundColor: collors.green,
         borderRadius: 5,
         alignItems: 'center',
         justifyContent: 'center',
@@ -345,14 +335,14 @@ const styles = StyleSheet.create({
         }),
     },
     text: {
-        color: 'white',
+        color: collors.white,
         fontFamily: 'Fredoka-Medium',
         fontSize: RFValue(11),
     },
     buttonDelete: {
         width: 100,
         height: 38,
-        backgroundColor: '#CA143F',
+        backgroundColor: collors.red,
         borderRadius: 5,
         alignItems: 'center',
         justifyContent: 'center',
@@ -368,17 +358,23 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         backgroundColor: 'rgba(0, 0, 0, 0.8)',
     },
-    iconClose: {
-        alignSelf: 'flex-end',
-        margin: 3,
-    },
     dropdownItemText: {
         fontSize: RFValue(11),
-        color: '#616161',
+        color: collors.coldGray,
     },
     inputSearchStyle: {
         fontSize: RFValue(11),
-        color: '#616161',
+        color: collors.coldGray,
         height: 42,
+    },
+    goBack: {
+        position: 'absolute',
+        top: 30,
+        left: 20,
+    },
+    title: {
+        color: collors.white,
+        fontFamily: 'Fredoka-Medium',
+        fontSize: RFValue(12),
     },
 });

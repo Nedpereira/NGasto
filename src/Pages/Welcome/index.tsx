@@ -2,25 +2,26 @@ import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image, Dimensions, Platform, ScrollView } from 'react-native';
 import LottieView from 'lottie-react-native';
 import { useDispatch } from 'react-redux';
-import { NameUser } from '../../Redux/Actions';
+import { User } from '../../Redux/Actions';
 import { navigationProps } from '../../types/Navigation';
 import { RFValue } from 'react-native-responsive-fontsize';
-import { welcomeColors } from '../../Styles/themes';
+import { collors } from '../../Styles/themes';
 import { MyAlert } from '../../Components/Alert';
+import { useNavigation } from '@react-navigation/native';
 
 const { width, height } = Dimensions.get('window');
 
-const Welcome = ({ navigation }: navigationProps) => {
-    const [name, setName] = useState('');
+const Welcome = () => {
+    const navigation: navigationProps = useNavigation();
     const dispatch = useDispatch();
+    const [name, setName] = useState('');
 
     const handleContinue = async () => {
         try {
             if (name) {
-                dispatch(NameUser(name));
+                dispatch(User(name, ''));
                 navigation.navigate('Home');
             } else {
-                console.log('else');
                 MyAlert(300, 'Por favor, insira seu nome para continuar.');
             }
         } catch {
@@ -38,13 +39,7 @@ const Welcome = ({ navigation }: navigationProps) => {
 
                 <View style={styles.inputContainer}>
                     <Text style={styles.label}>Como gostaria de ser chamado(a)?</Text>
-                    <TextInput
-                        style={styles.input}
-                        placeholderTextColor={welcomeColors.placeholder}
-                        placeholder="Nome"
-                        value={name}
-                        onChangeText={setName}
-                    />
+                    <TextInput style={styles.input} placeholderTextColor={collors.lightGrey} placeholder="Nome" value={name} onChangeText={setName} />
                     <Text style={styles.offlineInfo}>
                         Seus dados são armazenados localmente para uso offline, garantindo sua privacidade e segurança
                     </Text>
@@ -59,7 +54,7 @@ const Welcome = ({ navigation }: navigationProps) => {
 
 const styles = StyleSheet.create({
     scrollView: {
-        backgroundColor: welcomeColors.backgroundColor,
+        backgroundColor: collors.lightBlue,
     },
     container: {
         flex: 1,
@@ -77,13 +72,13 @@ const styles = StyleSheet.create({
         alignSelf: 'flex-start',
         fontSize: RFValue(21),
         fontFamily: 'Fredoka-Medium',
-        color: welcomeColors.text,
+        color: collors.white,
     },
     subtitle: {
         alignSelf: 'flex-start',
         fontSize: RFValue(12),
         fontFamily: 'Fredoka-Regular',
-        color: welcomeColors.text,
+        color: collors.white,
     },
     animation: {
         alignSelf: 'center',
@@ -99,7 +94,7 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
         fontSize: RFValue(13),
         fontFamily: 'Fredoka-Regular',
-        color: welcomeColors.text,
+        color: collors.white,
         marginBottom: 10,
     },
     input: {
@@ -108,8 +103,8 @@ const styles = StyleSheet.create({
         borderRadius: 8,
         paddingLeft: 10,
         fontSize: RFValue(12),
-        backgroundColor: welcomeColors.text,
-        color: welcomeColors.placeholder,
+        backgroundColor: collors.white,
+        color: collors.lightGrey,
         fontFamily: 'Fredoka-Regular',
         borderColor: 'transparent',
         alignSelf: 'center',
@@ -124,7 +119,7 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
         textAlign: 'center',
         fontSize: RFValue(10),
-        color: welcomeColors.text,
+        color: collors.white,
         fontFamily: 'Fredoka-Regular',
         marginTop: 10,
         marginBottom: 30,
@@ -134,7 +129,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         width: width * 0.8,
         height: 42,
-        backgroundColor: welcomeColors.button,
+        backgroundColor: collors.green,
         borderRadius: 8,
         ...Platform.select({
             android: {
@@ -144,7 +139,7 @@ const styles = StyleSheet.create({
     },
     textButton: {
         fontSize: RFValue(15),
-        color: welcomeColors.text,
+        color: collors.white,
         fontFamily: 'Fredoka-Regular',
     },
 });

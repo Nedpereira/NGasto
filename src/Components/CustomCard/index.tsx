@@ -3,8 +3,8 @@ import { View, Text, StyleSheet, TouchableOpacity, Dimensions, Platform } from '
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { RFValue } from 'react-native-responsive-fontsize';
 import { Tag } from '../Tag';
-import { formatarValor } from '../../Utils/FormatarValor';
-import { customCardColors } from '../../Styles/themes';
+import { formatValue } from '../../Utils/FormatValue';
+import { collors } from '../../Styles/themes';
 import { useNavigation } from '@react-navigation/native';
 
 const { width, height } = Dimensions.get('window');
@@ -18,7 +18,6 @@ type CustomCardProps = {
 };
 
 const CustomCard = ({ id, tag = 'Outros', descricao, valor = 0, onCardDelete }: CustomCardProps) => {
-
     const navigation: any = useNavigation();
 
     const tiposGasto: any = {
@@ -39,7 +38,7 @@ const CustomCard = ({ id, tag = 'Outros', descricao, valor = 0, onCardDelete }: 
             <View style={styles.card}>
                 <View style={styles.cardHeader}>
                     <Tag tipo={tag} />
-                    <TouchableOpacity onPress={() => onCardDelete?.(id)}>
+                    <TouchableOpacity style={styles.iconDelete} onPress={() => onCardDelete?.(id)}>
                         <Icon name="close" size={20} color={'black'} />
                     </TouchableOpacity>
                 </View>
@@ -47,7 +46,7 @@ const CustomCard = ({ id, tag = 'Outros', descricao, valor = 0, onCardDelete }: 
                     <Text numberOfLines={1} ellipsizeMode="tail" style={styles.descricao}>
                         {descricao}
                     </Text>
-                    <Text style={[styles.value, { color: iconeCor }]}>{formatarValor(valor)}</Text>
+                    <Text style={[styles.value, { color: iconeCor }]}>{formatValue(valor)}</Text>
                 </View>
             </View>
         </TouchableOpacity>
@@ -58,7 +57,7 @@ export default CustomCard;
 
 const styles = StyleSheet.create({
     card: {
-        backgroundColor: customCardColors.backgroundColor,
+        backgroundColor: collors.white,
         borderRadius: 8,
         padding: 8,
         marginVertical: 5,
@@ -83,13 +82,19 @@ const styles = StyleSheet.create({
     },
     descricao: {
         fontSize: RFValue(13),
-        fontFamily: 'Fredoka-Light',
-        color: customCardColors.descricao,
+        fontFamily: 'Fredoka-Medium',
+        color: collors.coldGray,
         width: width * 0.6,
     },
     value: {
         fontSize: RFValue(12),
-        color: customCardColors.value,
+        fontFamily: 'Fredoka-Medium',
         marginLeft: 4,
+    },
+    iconDelete: {
+        width: 30,
+        height: 20,
+        alignItems: 'center',
+        justifyContent: 'center',
     },
 });

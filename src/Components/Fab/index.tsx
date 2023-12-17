@@ -21,11 +21,20 @@ const Fab = () => {
                         left: 10,
                         bottom: 30,
                     }}
+                    color="#242424"
                     open={open}
                     visible={true}
                     backdropColor="transparent"
                     icon={open ? 'arrow-down' : 'arrow-up'}
-                    actions={[{ icon: 'plus', onPress: () => navigation.navigate('addcard') }]}
+                    actions={[
+                        { icon: 'chart-pie', onPress: () => navigation.navigate('Overview'), style: { backgroundColor: 'white' }, color: '#242424' },
+                        {
+                            icon: 'plus',
+                            onPress: () => navigation.navigate('Addcard', { typeCard: 'add' }),
+                            style: { backgroundColor: 'white' },
+                            color: '#242424',
+                        },
+                    ]}
                     onStateChange={onStateChange}
                 />
             </Portal>
