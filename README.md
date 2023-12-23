@@ -36,7 +36,7 @@ Confira o design UI/UX do NGasto desenvolvido no Figma antes da implementação:
 
 O NGasto estará disponível para download no Google Play. Fique atento para o lançamento e obtenha o aplicativo para começar a gerenciar suas finanças com facilidade.
 
-[![Google Play](https://img.shields.io/badge/Google_Play-Disponível-1DA1F2.svg?style=for-the-badge&logo=google-play)](URL_do_Aplicativo_na_Google_Play)
+[![Google Play](https://img.shields.io/badge/Google_Play-Disponível-1DA1F2.svg?style=for-the-badge&logo=google-play)](https://play.google.com/apps/testing/com.vocenocontrole)
 
 ## Uso
 
