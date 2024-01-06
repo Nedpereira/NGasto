@@ -11,7 +11,7 @@ const { width, height } = Dimensions.get('window');
 
 type CustomCardProps = {
     id: number;
-    tag?: 'Casa' | 'Lazer' | 'Saúde' | 'Educação' | 'Transporte' | 'Alimentação' | 'Outros' | 'Salario' | 'Beneficio' | 'Freelance';
+    tag?: 'Casa' | 'Lazer' | 'Saúde' | 'Educação' | 'Transporte' | 'Alimentação' | 'Outros' | 'Salario' | 'Beneficio' | 'Pix';
     descricao?: string;
     valor?: number;
     onCardDelete?: (id: number) => void;

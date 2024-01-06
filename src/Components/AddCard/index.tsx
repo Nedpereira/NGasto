@@ -62,7 +62,7 @@ const AddCard = () => {
         { label: 'Outros', value: 'Outros' },
         { label: 'Salario', value: 'Salario' },
         { label: 'Beneficio', value: 'Beneficio' },
-        { label: 'Freelance', value: 'Freelance' },
+        { label: 'Pix', value: 'Pix' },
     ];
 
     const handleAddCard = () => {
@@ -70,7 +70,7 @@ const AddCard = () => {
             inserirCard(anoMes, tag, description, value);
             MyAlert(200, 'Card adicionado com sucesso!');
             setTimeout(() => {
-                navigation.goBack();
+                navigation.navigate('Home');
             }, 1000);
         } else {
             MyAlert(300, 'Preencha todos os campos!');
@@ -78,8 +78,8 @@ const AddCard = () => {
     };
 
     const handleValueChange = (text: string) => {
-        const filteredText = text.replace(/\D/g, '');
-        if (filteredText.length <= 5) {
+        const filteredText = text.replace(',', '.');
+        if (filteredText.length <= 6) {
             setValue(filteredText);
             setEditValue(filteredText);
         }

@@ -35,7 +35,7 @@ const Welcome = () => {
                 <Image style={styles.logoTipo} source={require('../../Assets/imgs/NGastoBranco.png')} />
                 <Text style={styles.title}>Bem-vindo ao NGasto</Text>
                 <Text style={styles.subtitle}>Controle seus gastos e lucros com facilidade.</Text>
-                <LottieView loop autoPlay style={styles.animation} source={require('../../Assets/imgs/animation.json')} />
+                <LottieView loop autoPlay style={styles.animation} source={require('../../Assets/imgs/Animation.json')} />
 
                 <View style={styles.inputContainer}>
                     <Text style={styles.label}>Como gostaria de ser chamado(a)?</Text>
