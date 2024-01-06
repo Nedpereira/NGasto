@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, ScrollView, Platform, Image } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, Platform, Image, BackHandler } from 'react-native';
 import getGreetings from '../../Utils/getGreetings';
 import Fab from '../../Components/Fab';
 import { searchAllCards } from '../../Utils/Select_Cards';
@@ -16,6 +16,8 @@ import { DeleteCard } from '../../Helpers/Delete-Card';
 import { CreateCardsTable } from '../../Helpers/Add-Tabela';
 import { navigationProps } from '../../types/Navigation';
 import { cardsProps, monthYearProps, userProps } from '../../types/AllTypes';
+import moment from 'moment';
+import 'moment/locale/pt-br';
 
 function Home() {
     const navigation: navigationProps = useNavigation();
@@ -30,16 +32,27 @@ function Home() {
         CreateCardsTable();
     }, []);
 
+    useEffect(() => {
+        const backHandler = BackHandler.addEventListener('hardwareBackPress', handleBackButtonPress);
+        return () => backHandler.remove();
+    }, []);
+
+    const handleBackButtonPress = () => {
+        BackHandler.exitApp();
+        return true;
+    };
+
     useFocusEffect(
         React.useCallback(() => {
-            searchAllCards(calendarSelect, (dados) => {
+            const currentMonthYear = calendarSelect || moment().format('MMMYYYY');
+            searchAllCards(currentMonthYear, (dados) => {
                 setCard(dados);
             });
-            addCardsByCategory(calendarSelect).then(({ totalGastos, totalLucros }) => {
+            addCardsByCategory(currentMonthYear).then(({ totalGastos, totalLucros }) => {
                 setLucro(totalLucros);
                 setGasto(totalGastos);
             });
-        }, [isLoading, calendarSelect])
+        }, [calendarSelect, isLoading])
     );
 
     const onCardDelete = async (id: number) => {

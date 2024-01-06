@@ -10,6 +10,7 @@ import getGastosByCategory from './GetSpendingByCategory';
 import { PieChart } from 'react-native-chart-kit';
 import BalanceCard from '../../Components/BalanceCard';
 import { CustomCalendarHeader } from '../../Components/Calendar';
+import moment from 'moment';
 import 'moment/locale/pt-br';
 import { useSelector } from 'react-redux';
 import { addCardsByCategory } from '../../Utils/addCardsByCategory';
@@ -38,7 +39,8 @@ export default function Overview() {
     };
 
     const control = async () => {
-        addCardsByCategory(calendarSelect).then(({ totalGastos, totalLucros }) => {
+        const currentMonthYear = calendarSelect || moment().format('MMMYYYY');
+        addCardsByCategory(currentMonthYear).then(({ totalGastos, totalLucros }) => {
             const calculation = totalLucros >= totalGastos ? totalLucros - totalGastos : 0;
             const remaining = totalLucros >= totalGastos ? 0 : totalGastos - totalLucros;
             setRemaining(remaining);
@@ -47,7 +49,8 @@ export default function Overview() {
     };
 
     const fetchData = async () => {
-        const gastos = await getGastosByCategory(calendarSelect);
+        const currentMonthYear = calendarSelect || moment().format('MMMYYYY');
+        const gastos = await getGastosByCategory(currentMonthYear);
 
         const dataForChart = gastos.map((gasto: any) => ({
             name: gasto.categoria,
