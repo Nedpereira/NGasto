@@ -4,7 +4,7 @@ import { RFValue } from 'react-native-responsive-fontsize';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 type TagProps = {
-    tipo: 'Casa' | 'Lazer' | 'Saúde' | 'Educação' | 'Transporte' | 'Alimentação' | 'Outros' | 'Salario' | 'Beneficio' | 'Freelance';
+    tipo: 'Casa' | 'Lazer' | 'Saúde' | 'Educação' | 'Transporte' | 'Alimentação' | 'Outros' | 'Salario' | 'Beneficio' | 'Pix';
 };
 
 const coresPorTipo = {
@@ -17,7 +17,7 @@ const coresPorTipo = {
     Outros: '#BEBEBE',
     Salario: '#008000',
     Beneficio: '#FFA07A',
-    Freelance: '#3CB371',
+    Pix: '#3CB371',
 };
 
 const iconesPorTipo = {
@@ -30,7 +30,7 @@ const iconesPorTipo = {
     Outros: 'ellipsis-h',
     Salario: 'money',
     Beneficio: 'institution',
-    Freelance: 'laptop',
+    Pix: 'dollar',
 };
 
 export const Tag = ({ tipo }: TagProps) => {
